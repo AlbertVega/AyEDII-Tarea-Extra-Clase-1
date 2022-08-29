@@ -8,6 +8,7 @@
 #include <stdio.h>
 using namespace std;
 
+//global variables
 int* ptr;
 vector<int> array1D;
 int row;
@@ -31,8 +32,12 @@ Array::Array(int _size, vector<int> _array){
 int* Array::Paginate(){
     ptr = (int *) malloc(6 * (256 * sizeof(int)));
     for (size_t i = 0; i<array.size(); i++){
+        if (i>1536){
+            cout<<"out of memory\n";
+            exit(1);
+        }
         ptr[i] =  array[i];
-        //cout<<ptr[i]<<"\n";
+        
     }
     return 0;
 }
@@ -44,20 +49,20 @@ int CopyCSV(string filename){
 
     string line, field;
 
-    vector< vector<string>> array;  // the 2D array
-    vector<string> v;                // array of values for one line only
+    vector< vector<string>> array;  
+    vector<string> v;             
 
-    while ( getline(in,line) )    // get next line in file
+    while ( getline(in,line) )    
     {
         v.clear();
         stringstream ss(line);
 
-        while (getline(ss,field,','))  // break line into comma delimitted fields
+        while (getline(ss,field,','))  
         {
-            v.push_back(field);  // add each field to the 1D array
+            v.push_back(field); 
         }
 
-        array.push_back(v);  // add the 1D array to the 2D array
+        array.push_back(v);  
     }
 
     row = array.size();
@@ -81,7 +86,7 @@ void swap(int* a, int* b)
     *b = t; 
 } 
   
-/* Quick sort*/
+//Quick sort
 int partition (int arr[], int low, int high) 
 { 
     int pivot = arr[high]; // pivot 
@@ -159,6 +164,7 @@ void selectionSort(int arr[], int n)
     }
 }
 
+//Write in the resultant CSV
 void WriteCSV(string filename, int* Ptr){
     ofstream file;
     file.open(filename, ios::out);
@@ -180,30 +186,20 @@ void WriteCSV(string filename, int* Ptr){
 
 int main(int argc, char* argv[]){
     CopyCSV(argv[2]);
-    /*for (int i = 0; i < argc; i++){
-        printf("argv[%d] = %s\n", i, argv[i]);
-    }*/
     string algoritmo = argv[4];
     if (algoritmo == "QS"){
         quickSort(ptr,0,array1D.size()-1);
-        /*for (int i = 0; i<array1D.size(); i++){
-        cout<<ptr[i]<<"\n";
-        }*/
         WriteCSV(argv[6], ptr);
 
     }else if(algoritmo == "IS"){
         insertionSort(ptr, array1D.size());
-        for (int i = 0; i<array1D.size(); i++){
-        cout<<ptr[i]<<"\n";
-        }
+        WriteCSV(argv[6], ptr);
+        
     }else if(algoritmo == "SS"){
         selectionSort(ptr, array1D.size());
-        for (int i = 0; i<array1D.size(); i++){
-        cout<<ptr[i]<<"\n";
-        }
+        WriteCSV(argv[6], ptr);
     }else{
         cout<<"selecione el algoritmo de ordenamiento";
     }
-    
     return 0;
 }
