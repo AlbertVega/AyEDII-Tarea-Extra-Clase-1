@@ -37,7 +37,6 @@ int* Array::Paginate(){
     return 0;
 }
 
-
 //Copy the csv to an array
 int CopyCSV(string filename){
     
@@ -168,10 +167,14 @@ void WriteCSV(string filename, int* Ptr){
         cout<<"no se pudo abrir el archivo";
         exit(1);
     }else{
-        
-        for (int i = 0; i<array1D.size(); i++){
-            file<<Ptr[i]<<", ";
-        }
+        int index = 0;
+        for(int i =0; i<row; ++i){
+            for (int j =0; j<col; ++j){
+                file<<Ptr[index]<<", ";
+                index++;
+            }
+        file<<"\n";
+       }
     }
 }
 
