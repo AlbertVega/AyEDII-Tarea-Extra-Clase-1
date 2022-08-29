@@ -10,6 +10,8 @@ using namespace std;
 
 int* ptr;
 vector<int> array1D;
+int row;
+int col;
 
 class Array{
     private: 
@@ -27,10 +29,10 @@ Array::Array(int _size, vector<int> _array){
 }
 
 int* Array::Paginate(){
-    ptr = (int *) malloc(6 * (size * sizeof(int)));
+    ptr = (int *) malloc(6 * (256 * sizeof(int)));
     for (size_t i = 0; i<array.size(); i++){
         ptr[i] =  array[i];
-        cout<<ptr[i]<<"\n";
+        //cout<<ptr[i]<<"\n";
     }
     return 0;
 }
@@ -43,7 +45,7 @@ int CopyCSV(string filename){
 
     string line, field;
 
-    vector< vector<string> > array;  // the 2D array
+    vector< vector<string>> array;  // the 2D array
     vector<string> v;                // array of values for one line only
 
     while ( getline(in,line) )    // get next line in file
@@ -59,8 +61,8 @@ int CopyCSV(string filename){
         array.push_back(v);  // add the 1D array to the 2D array
     }
 
-    int row = array.size();
-    int col = v.size();
+    row = array.size();
+    col = v.size();
     
     for(size_t i = 0; i < row; ++i){
         for(size_t j= 0; j < col; ++j){
@@ -158,6 +160,20 @@ void selectionSort(int arr[], int n)
     }
 }
 
+void WriteCSV(string filename, int* Ptr){
+    ofstream file;
+    file.open(filename, ios::out);
+
+    if (file.fail()){
+        cout<<"no se pudo abrir el archivo";
+        exit(1);
+    }else{
+        
+        for (int i = 0; i<array1D.size(); i++){
+            file<<Ptr[i]<<", ";
+        }
+    }
+}
 
 int main(int argc, char* argv[]){
     CopyCSV(argv[2]);
@@ -167,9 +183,11 @@ int main(int argc, char* argv[]){
     string algoritmo = argv[4];
     if (algoritmo == "QS"){
         quickSort(ptr,0,array1D.size()-1);
-        for (int i = 0; i<array1D.size(); i++){
+        /*for (int i = 0; i<array1D.size(); i++){
         cout<<ptr[i]<<"\n";
-        }
+        }*/
+        WriteCSV(argv[6], ptr);
+
     }else if(algoritmo == "IS"){
         insertionSort(ptr, array1D.size());
         for (int i = 0; i<array1D.size(); i++){
