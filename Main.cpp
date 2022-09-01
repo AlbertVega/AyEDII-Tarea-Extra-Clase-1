@@ -30,14 +30,9 @@ Array::Array(int _size, vector<int> _array){
 }
 
 int* Array::Paginate(){
-    ptr = (int *) malloc(6 * (256 * sizeof(int)));
+    ptr = (int *) malloc(array.size() * sizeof(int));
     for (size_t i = 0; i<array.size(); i++){
-        if (i>1536){
-            cout<<"out of memory\n";
-            exit(1);
-        }
         ptr[i] =  array[i];
-        
     }
     return 0;
 }
