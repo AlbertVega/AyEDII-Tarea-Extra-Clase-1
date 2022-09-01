@@ -30,7 +30,10 @@ Array::Array(int _size, vector<int> _array){
 }
 
 int* Array::Paginate(){
+    
     ptr = (int *) malloc(array.size() * sizeof(int));
+    
+    
     for (size_t i = 0; i<array.size(); i++){
         ptr[i] =  array[i];
     }
